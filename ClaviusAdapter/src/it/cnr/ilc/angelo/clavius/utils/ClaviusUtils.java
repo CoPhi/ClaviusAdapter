@@ -11,6 +11,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.StringReader;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +22,8 @@ import org.apache.commons.io.Charsets;
 import org.apache.commons.io.IOUtils;
 import org.jdom2.Document;
 import org.jdom2.Element;
+import org.jdom2.JDOMException;
+import org.jdom2.input.SAXBuilder;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 
@@ -81,6 +84,23 @@ public class ClaviusUtils {
 		return ret;
 
 	}
+	
+	public static Document getXML(String XMLtext){
+		Document doc = null;
+		SAXBuilder sax = new SAXBuilder();
+		try {
+			doc = sax.build(new StringReader(XMLtext));
+		} catch (JDOMException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return doc;
+		
+	}
+	
 
 //	public static List<Element> makeDocs(BufferedReader reader) {
 //		List<Element> docs = new ArrayList<Element>();
