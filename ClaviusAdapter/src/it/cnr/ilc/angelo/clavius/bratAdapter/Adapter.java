@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.jdom2.Document;
+import org.jdom2.Element;
 
 /**
  * @author Angelo Del Grosso
@@ -37,6 +38,7 @@ public class Adapter {
 	private Document parse(File file) 
 			throws IllegalArgumentException, UnsupportedEncodingException, FileNotFoundException, IOException{
 		Document dom = null;
+		dom = ClaviusUtils.FactoryRootDom("lexico-semantic_analysis");
 		//System.err.println(file.getCanonicalFile().getParent()+File.separator+"Letter147_tokens.xml");
 		//System.err.println(IOUtils.FromFileToString(file.getCanonicalFile().getParent()+File.separator+"Letter147_tokens.xml"));
 
@@ -46,6 +48,11 @@ public class Adapter {
 		for (String line : lines) {
 			//estrarre le informazioni e inserirle nei nodi corretti XML
 			System.err.println("estrarre le informazioni e inserirle nei nodi corretti XML: " + line);
+			Element entity = new Element("entity").
+					setAttribute("object", line).
+					setAttribute("class", "OntoClass").
+					setAttribute("individual", "AnnotationIndividual");
+			dom.getRootElement().addContent(entity);
 		}
 		
 

@@ -85,6 +85,11 @@ public class ClaviusUtils {
 
 	}
 	
+	
+	public static Document FactoryRootDom(String root){
+		return new Document().setRootElement(new Element(root));
+	}
+	
 	public static Document getXML(String XMLtext){
 		Document doc = null;
 		SAXBuilder sax = new SAXBuilder();
