@@ -51,14 +51,16 @@ public class Adapter {
 		//System.err.println(IOUtils.FromXMLtoString(tokens));
 		String[] lines = splitLine(file);
 		for (String line : lines) {
-			//estrarre le informazioni e inserirle nei nodi corretti XML
+			//estrarre le informazioni di token e inserirle nei nodi corretti XML
 			System.err.println("estrarre le informazioni e inserirle nei nodi corretti XML: " + line);
-			DataTransfertObject dto = datahandler(line, tokens);
-			Element entity = new Element("entity").
-					setAttribute("object", dto.getUrnCts()).
-					setAttribute("class", dto.getClasseOnt()).
-					setAttribute("individual", dto.getInstOnt());
-			dom.getRootElement().addContent(entity);
+			if(line.startsWith("T")){
+				DataTransfertObject dto = datahandler(line, tokens);
+				Element entity = new Element("entity").
+						setAttribute("object", dto.getUrnCts()).
+						setAttribute("class", dto.getClasseOnt()).
+						setAttribute("individual", dto.getInstOnt());
+				dom.getRootElement().addContent(entity);
+			}
 		}
 
 
@@ -72,10 +74,10 @@ public class Adapter {
 		String ctsUrn = null;
 		String[] tabs = line.split("\\t");
 		ctsUrn = extractCtsUrn(tabs[1], tokens);
-		
+
 		dto = new DataTransfertObject();
-		
-		
+
+
 		dto.setClasseOnt(tabs[1].split("\\s")[0]);
 		dto.setInstOnt(tabs[2]);
 		dto.setUrnCts(ctsUrn);
@@ -88,14 +90,14 @@ public class Adapter {
 		StringBuilder urnCtsBulder = new StringBuilder();
 		String start = tab.split("\\s")[1];
 		String end = tab.split("\\s")[2];
-		
+
 		XPathFactory xpfac = XPathFactory.instance();
-//		XPathExpression<Element> xp = xpfac.compile("//tokens/token/[@start='"+start+"']", Filters.element());
-//		for(Element ele : xp.evaluate(tokens)){
-//			System.err.println(ele.getAttributeValue("uri"));
-//		}
-		urnCtsBulder.append(start);
-		urnCtsBulder.append(end);
+		XPathExpression<Element> xp = xpfac.compile("/tokens/token[@start<="+end+" and @end >="+start +"]", Filters.element());
+		System.err.println("/tokens/token[@start<="+end+" and @end >="+start +"]");
+		for(Element ele : xp.evaluate(tokens)){
+			System.err.println(ele.getAttributeValue("uri"));
+			urnCtsBulder.append(ele.getAttributeValue("uri")+"\u0020");
+		}
 		return urnCtsBulder.toString();
 	}
 
