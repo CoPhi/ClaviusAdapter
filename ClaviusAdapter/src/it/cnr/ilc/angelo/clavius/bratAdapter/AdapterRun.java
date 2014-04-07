@@ -9,9 +9,9 @@ import java.io.UnsupportedEncodingException;
 
 import org.jdom2.Document;
 
-public class AdaperRun {
+public class AdapterRun {
 
-	public AdaperRun() {
+	public AdapterRun() {
 		// TODO Auto-generated constructor stub
 	}
 
