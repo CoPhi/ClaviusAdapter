@@ -7,7 +7,10 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.io.Writer;
+import java.nio.charset.Charset;
 
+import org.apache.commons.io.output.FileWriterWithEncoding;
 import org.jdom2.Document;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
@@ -63,6 +66,14 @@ public class IOUtils {
 			throw new IOException("hehehahe XMLdoc invalid or null");
 		XMLOutputter xo = new XMLOutputter(Format.getPrettyFormat());
 		return xo.outputString(XMLdoc);
+	}
+	
+	public static void FromXMLtoFile(Document XMLdoc, String file) throws IOException{
+		if(XMLdoc==null)
+			throw new IOException("hehehahe XMLdoc invalid or null");
+		XMLOutputter xo = new XMLOutputter(Format.getPrettyFormat());
+		Writer w = new FileWriterWithEncoding(file, Charset.defaultCharset());
+		xo.output(XMLdoc, w);
 	}
 
 	/**

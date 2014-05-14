@@ -23,9 +23,12 @@ public class AdapterRun {
 
 		try {
 
-			Document dom = Adapter.adapt(new File(args[0]));
+			// gli argomenti sono il File delle annotazioni e il nome del file della tokenizzazione XML presenti entrambi nel contesto di brat
+			Document dom = Adapter.adapt(new File(args[0]), args[1]);
 
 			System.err.println(IOUtils.FromXMLtoString(dom));
+			
+			IOUtils.FromXMLtoFile(dom, "KAF_"+args[1]);
 
 
 		} catch (IllegalArgumentException e) {

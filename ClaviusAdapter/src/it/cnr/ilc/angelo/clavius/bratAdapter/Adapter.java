@@ -12,7 +12,9 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 
@@ -34,27 +36,29 @@ public class Adapter {
 		// TODO Auto-generated constructor stub
 	}
 
-	public static Document adapt(File file) 
+	public static Document adapt(File file, String fileName) 
 			throws IllegalArgumentException, UnsupportedEncodingException, FileNotFoundException, IOException{
 		Adapter bratAdapter = new Adapter();
-		return bratAdapter.parse(file);
+		return bratAdapter.parse(file, fileName);
 	}
 
-	private Document parse(File file) 
+	private Document parse(File file, String fileName) 
 			throws IllegalArgumentException, UnsupportedEncodingException, FileNotFoundException, IOException{
 		Document dom = null;
 		dom = ClaviusUtils.FactoryRootDom("lexico-semantic_analysis");
 		//System.err.println(file.getCanonicalFile().getParent()+File.separator+"Letter147_tokens.xml");
 		//System.err.println(IOUtils.FromFileToString(file.getCanonicalFile().getParent()+File.separator+"Letter147_tokens.xml"));
 
-		Document tokens = ClaviusUtils.getXML(IOUtils.FromFileToString(file.getCanonicalFile().getParent()+File.separator+"Letter147_tokens.xml"));
+		Document tokens = ClaviusUtils.getXML(IOUtils.FromFileToString(file.getCanonicalFile().getParent()+File.separator+fileName));
 		//System.err.println(IOUtils.FromXMLtoString(tokens));
+		// TODO cambiare il nome del file in argomento passato al programma
 		String[] lines = splitLine(file);
+		Map<String, String> references = getReferences(lines);
 		for (String line : lines) {
 			//estrarre le informazioni di token e inserirle nei nodi corretti XML
 			System.err.println("estrarre le informazioni e inserirle nei nodi corretti XML: " + line);
 			if(line.startsWith("T")){
-				DataTransfertObject dto = datahandler(line, tokens);
+				DataTransfertObject dto = datahandler(line,tokens,references);
 				Element entity = new Element("entity").
 						setAttribute("object", dto.getUrnCts()).
 						setAttribute("class", dto.getClasseOnt()).
@@ -67,19 +71,40 @@ public class Adapter {
 		return dom;
 	}
 
-	private DataTransfertObject datahandler(String line, Document tokens) throws IOException {
+	private Map<String, String> getReferences(String[] lines) {
+		// TODO Auto-generated method stub
+		Map<String, String> ret = new HashMap<String, String>();
+		for(String line : lines){
+			if(line.startsWith("N")){
+				String ref = line.split("\\t")[1];
+				String[] rdata = ref.split("\\s");
+				String k = rdata[1];
+				if(k.startsWith("T")){
+					ret.put(k, rdata[2]);
+				}
+			}
+		}
+		return ret;
+	}
+
+	private DataTransfertObject datahandler(String line, Document tokens, Map<String,String> references) throws IOException {
 		// TODO Auto-generated method stub
 		if(null==line){throw new IOException("null line in dataTransfetiObject");}
 		DataTransfertObject  dto = null;
-		String ctsUrn = null;
+		String ctsUrn = "";
+		String insOnt = "";
 		String[] tabs = line.split("\\t");
 		ctsUrn = extractCtsUrn(tabs[1], tokens);
-
+		
+		if(references.containsKey(tabs[0])){
+			insOnt = references.get(tabs[0]);
+		}
+		
 		dto = new DataTransfertObject();
 
 
 		dto.setClasseOnt(tabs[1].split("\\s")[0]);
-		dto.setInstOnt(tabs[2]);
+		dto.setInstOnt(insOnt);
 		dto.setUrnCts(ctsUrn);
 
 		return dto;
