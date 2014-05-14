@@ -46,6 +46,7 @@ public class Adapter {
 			throws IllegalArgumentException, UnsupportedEncodingException, FileNotFoundException, IOException{
 		Document dom = null;
 		dom = ClaviusUtils.FactoryRootDom("lexico-semantic_analysis");
+		ClaviusUtils.verifyFile(new File(fileName), false);
 		//System.err.println(file.getCanonicalFile().getParent()+File.separator+"Letter147_tokens.xml");
 		//System.err.println(IOUtils.FromFileToString(file.getCanonicalFile().getParent()+File.separator+"Letter147_tokens.xml"));
 
