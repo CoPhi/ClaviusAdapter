@@ -20,6 +20,7 @@ public class AdapterRun {
 	 */
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
+		// FIXME: attenzione le polirematiche devono essere token sequenziali, ma non sempre è vero. Esempio: "linea etenim Dinostrati" nella lettera 147
 
 		try {
 
