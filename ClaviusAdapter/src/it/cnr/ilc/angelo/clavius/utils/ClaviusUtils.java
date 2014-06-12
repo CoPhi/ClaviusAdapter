@@ -57,7 +57,7 @@ public class ClaviusUtils {
 			throw new IllegalArgumentException("File cannot be written: " + aFile);
 		}
 
-		System.out.println("verifying file: " + aFile.getAbsolutePath() + "\n");
+		//System.out.println("verifying file: " + aFile.getAbsolutePath() + "\n");
 	}
 
 	public static String streamToString(InputStream is){
@@ -174,19 +174,19 @@ public class ClaviusUtils {
 		int ret = 0;
 		int count = 0;
 		int times = Integer.parseInt(ctsToken.substring(ctsToken.indexOf('[')+1, ctsToken.indexOf(']')));
-		System.err.println(times);
+		//System.err.println(times);
 		String literalToken = ctsToken.substring(ctsToken.indexOf('@')+1, ctsToken.indexOf('['));
 		String patternQuote = "";
 		if(literalToken.matches("\\p{Punct}")){
-			System.out.println("in punct:" + literalToken);
+			//System.out.println("in punct:" + literalToken);
 			patternQuote = Pattern.quote(literalToken);
 		}
 		else{
 			patternQuote = "\\b"+Pattern.quote(literalToken)+"\\b";	
 		}
 
-		System.out.println(patternQuote);
-		System.out.println(sentence);
+		//System.out.println(patternQuote);
+		//System.out.println(sentence);
 		// FIXME attenzione la regex deve avere i boudary del token, altrimenti matcha alche le sottostringhe falsando gli offset
 		Pattern pa = Pattern.compile(patternQuote);
 		Matcher ma = pa.matcher(sentence);
@@ -322,7 +322,7 @@ public class ClaviusUtils {
 			localOffset = Integer.valueOf(w.getAttributeValue("end")).intValue();
 		}
 		Offset = Integer.valueOf(Offset.intValue()+localOffset+1);
-		System.out.println("Offset: "+Offset +" localOffset: "+localOffset);
+		//System.out.println("Offset: "+Offset +" localOffset: "+localOffset);
 		return Offset;
 	}
 

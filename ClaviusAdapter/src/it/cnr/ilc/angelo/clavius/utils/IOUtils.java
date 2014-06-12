@@ -42,7 +42,7 @@ public class IOUtils {
 			throw new IllegalArgumentException("File cannot be written: " + aFile);
 		}
 
-		System.out.println("verifying file: " + aFile.getAbsolutePath() + "\n");
+		//System.out.println("verifying file: " + aFile.getAbsolutePath() + "\n");
 	}
 	
 	public static String FromFileToString(String pathFile) 

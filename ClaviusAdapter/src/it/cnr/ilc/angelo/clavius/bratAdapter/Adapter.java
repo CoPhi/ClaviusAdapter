@@ -57,7 +57,7 @@ public class Adapter {
 		Map<String, String> references = getReferences(lines);
 		for (String line : lines) {
 			//estrarre le informazioni di token e inserirle nei nodi corretti XML
-			System.err.println("estrarre le informazioni e inserirle nei nodi corretti XML: " + line);
+			//System.err.println("estrarre le informazioni e inserirle nei nodi corretti XML: " + line);
 			if(line.startsWith("T")){
 				DataTransfertObject dto = datahandler(line,tokens,references);
 				Element entity = new Element("entity").
@@ -128,9 +128,9 @@ public class Adapter {
 
 		XPathFactory xpfac = XPathFactory.instance();
 		XPathExpression<Element> xp = xpfac.compile("/tokens/token[@start<="+end+" and @end >="+start +"]", Filters.element());
-		System.err.println("/tokens/token[@start<="+end+" and @end >="+start +"]"); // WoW it needs an Engineer!
+		//System.err.println("/tokens/token[@start<="+end+" and @end >="+start +"]"); // WoW it needs an Engineer!
 		for(Element ele : xp.evaluate(tokens)){
-			System.err.println(ele.getAttributeValue("uri"));
+			//System.err.println(ele.getAttributeValue("uri"));
 			urnCtsBulder.append(ele.getAttributeValue("uri")+"\u0020");
 		}
 		return urnCtsBulder.toString();
