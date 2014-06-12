@@ -42,7 +42,7 @@ public class ExistConnect {
 				System.out.println(res);
 			}
 			
-			XMLResource xmlFile = (XMLResource)root.createResource("testStritturaRemoto.xml", "XMLResource");
+			XMLResource xmlFile = (XMLResource)root.createResource("147-LessicoScritturaRemoto.xml", "XMLResource");
 			XMLOutputter xmlOutput = new XMLOutputter();
 			xmlOutput.setFormat(Format.getPrettyFormat());
 			xmlFile.setContent(new XMLOutputter().outputString(xml));
