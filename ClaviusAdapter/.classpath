@@ -4,5 +4,6 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Jdom2"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Commons (Apache)"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/exist2"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

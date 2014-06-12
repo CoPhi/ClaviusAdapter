@@ -8,6 +8,10 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
+import java.net.HttpURLConnection;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.nio.charset.Charset;
 
 import org.apache.commons.io.output.FileWriterWithEncoding;
@@ -24,6 +28,10 @@ public class IOUtils {
 	public static BufferedReader getReader(File inFile) throws IllegalArgumentException, UnsupportedEncodingException, FileNotFoundException{
 		verifyFile(inFile, false); 
 		return new BufferedReader(new InputStreamReader( new FileInputStream(inFile), "utf-8"));
+	}
+	
+	public static BufferedReader getReader(URL inUrl) throws IOException, UnsupportedEncodingException{
+		return new BufferedReader(new InputStreamReader(inUrl.openStream(), "utf-8"));
 	}
 	
 	public static void verifyFile( File aFile, boolean w ) {
@@ -59,6 +67,24 @@ public class IOUtils {
 		
 		return stringBuilder.toString();
 		
+	}
+	
+	public static String FromRemoteFileToString(String HttpRemoteUrl)
+		throws IllegalArgumentException, UnsupportedEncodingException, FileNotFoundException, IOException, URISyntaxException { 
+			StringBuilder stringBuilder = null;
+			BufferedReader reader = null;
+			String line = null;
+				
+			reader = getReader(new URL(HttpRemoteUrl));
+			
+			stringBuilder = new StringBuilder();
+			while(null!=(line = reader.readLine())){
+				stringBuilder.append(line);
+			}
+			
+			reader.close();
+			
+			return stringBuilder.toString();
 	}
 	
 	public static String FromXMLtoString(Document XMLdoc) throws IOException{

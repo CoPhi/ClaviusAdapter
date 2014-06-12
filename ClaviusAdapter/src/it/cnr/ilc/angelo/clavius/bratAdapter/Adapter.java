@@ -11,10 +11,12 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 
 
 
@@ -37,20 +39,22 @@ public class Adapter {
 	}
 
 	public static Document adapt(File file, String fileName) 
-			throws IllegalArgumentException, UnsupportedEncodingException, FileNotFoundException, IOException{
+			throws IllegalArgumentException, UnsupportedEncodingException, FileNotFoundException, IOException, URISyntaxException{
 		Adapter bratAdapter = new Adapter();
 		return bratAdapter.parse(file, fileName);
 	}
 
 	private Document parse(File file, String fileName) 
-			throws IllegalArgumentException, UnsupportedEncodingException, FileNotFoundException, IOException{
+			throws IllegalArgumentException, UnsupportedEncodingException, FileNotFoundException, IOException, URISyntaxException{
 		Document dom = null;
 		dom = ClaviusUtils.FactoryRootDom("lexico-semantic_analysis");
-		ClaviusUtils.verifyFile(new File(fileName), false);
+		if(!fileName.startsWith("http://"))
+			ClaviusUtils.verifyFile(new File(fileName), false);
 		//System.err.println(file.getCanonicalFile().getParent()+File.separator+"Letter147_tokens.xml");
 		//System.err.println(IOUtils.FromFileToString(file.getCanonicalFile().getParent()+File.separator+"Letter147_tokens.xml"));
 
-		Document tokens = ClaviusUtils.getXML(IOUtils.FromFileToString(file.getCanonicalFile().getParent()+File.separator+fileName));
+		Document tokens = ClaviusUtils.getXML(IOUtils.FromRemoteFileToString(fileName));
+				//FromFileToString(file.getCanonicalFile().getParent()+File.separator+fileName));
 		//System.err.println(IOUtils.FromXMLtoString(tokens));
 		// TODO cambiare il nome del file in argomento passato al programma
 		String[] lines = splitLine(file);
