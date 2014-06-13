@@ -57,11 +57,10 @@ public class AdapterRun {
 			Document dom = Adapter.adapt(new File(ann), urlTok);
 
 			//System.err.println(IOUtils.FromXMLtoString(dom));
+			//IOUtils.FromXMLtoFile(dom, context+"-lexico-semantic.xml");
 			
-			IOUtils.FromXMLtoFile(dom, context+"-lexico-semantic.xml");
-			
-			ExistConnect connect = new ExistConnect();
-			
+			/*connessione al data base e salvataggio del file XML*/
+			ExistConnect connect = new ExistConnect(context);
 			connect.connectAndSave(dom);
 			
 			System.out.println("file " + context+"-lexico-semantic.xml successfully written");
