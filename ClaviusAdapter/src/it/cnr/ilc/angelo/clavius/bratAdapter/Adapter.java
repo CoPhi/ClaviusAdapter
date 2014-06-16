@@ -88,15 +88,6 @@ public class Adapter {
 					ret.put(k, rdata[2]);
 				}
 			}
-			// FIXME - questa informazione è il contenuto della nota e dovrebbe nella versione finale essere eliminata, perchè sarà presente solo il riferimento al dataset
-			else if (line.startsWith("#")){
-				String[] ref = line.split("\\t");
-				String[] rdata = ref[1].split("\\s");
-				String k = rdata[1];
-				if(k.startsWith("T")){
-					ret.put(k, ref[2]);
-				}
-			}
 		}
 		return ret;
 	}
