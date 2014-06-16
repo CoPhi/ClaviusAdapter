@@ -19,13 +19,11 @@ import org.xmldb.api.modules.XMLResource;
  */
 public class ExistConnect {
 
-	private String context;
-	
 	protected final String driver = "org.exist.xmldb.DatabaseImpl";
 	protected final String collection = 
-			"xmldb:exist://claviusontheweb.it:8080/exist/xmlrpc/db/clavius/documents/";
+			//"xmldb:exist://cophidev.ilc.cnr.it:8088/xmlrpc/db/pericopesclavius";
+			"xmldb:exist://claviusontheweb.it:8080/exist/xmlrpc/db/clavius/documents/147";
 	private Collection root = null;
-	
 
 	/**
 	 * 
@@ -36,15 +34,15 @@ public class ExistConnect {
 			Class<?> c = Class.forName(driver);
 			Database db = (Database)c.newInstance();
 			DatabaseManager.registerDatabase(db);
-			root = DatabaseManager.getCollection(collection.concat(context),"","");
-//			System.err.println(root.getName());
+			root = DatabaseManager.getCollection(collection,"","");
+			System.err.println(root.getName());
 			
-//			String[] resources = root.listResources();
-//			for(String res: resources){
-//				System.out.println(res);
-//			}
+			String[] resources = root.listResources();
+			for(String res: resources){
+				System.out.println(res);
+			}
 			
-			XMLResource xmlFile = (XMLResource)root.createResource(context+"-lexico-semantic-remoto.xml", "XMLResource");
+			XMLResource xmlFile = (XMLResource)root.createResource("147-LessicoScritturaRemoto.xml", "XMLResource");
 			XMLOutputter xmlOutput = new XMLOutputter();
 			xmlOutput.setFormat(Format.getPrettyFormat());
 			xmlFile.setContent(new XMLOutputter().outputString(xml));
@@ -73,9 +71,8 @@ public class ExistConnect {
 	/**
 	 * 
 	 */
-	public ExistConnect(String context) {
-		this.context = context;
-		
+	public ExistConnect() {
+		// TODO Auto-generated constructor stub
 	}
 
 	/**
@@ -83,7 +80,7 @@ public class ExistConnect {
 	 */
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		ExistConnect test = new ExistConnect("147");
+		ExistConnect test = new ExistConnect();
 		System.err.println(test.connectAndSave(new Document()));
 
 	}
